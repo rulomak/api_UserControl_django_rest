@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 ''' con Abstrac estamos creando el usuario, con Baseuser estamos creando el manager de ese usuario  y con permission le damos los permisos  '''
 
 
+from django.conf import settings
+
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fiels):
@@ -41,3 +44,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'  # le dicimo que queremos hacer login con el email 
 
+
+
+
+class Tag(models.Model):
+    ''' modelo de Tag para la receta  '''
+    name = models.CharField(max_length=250)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name
+
+        
